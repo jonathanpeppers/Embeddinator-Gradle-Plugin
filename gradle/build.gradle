@@ -11,7 +11,7 @@ dependencies {
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 
-group='com.embeddinator.gradle'
+group='com.embeddinator'
 version='1.0.0'
 
 uploadArchives {
