@@ -4,6 +4,8 @@ apply plugin: 'maven'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile gradleApi()
+    compile localGroovy()
 }
 
 sourceCompatibility = "1.7"
