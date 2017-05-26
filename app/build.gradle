@@ -32,6 +32,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        variant.mergeAssets.doLast {
+            copy {
+                from ("src/main/assets/assemblies")
+                into ("$outputDir")
+            }
+        }
+    }
 }
 
 dependencies {
