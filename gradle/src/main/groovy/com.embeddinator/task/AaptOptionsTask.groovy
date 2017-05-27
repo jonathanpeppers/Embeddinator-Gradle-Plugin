@@ -8,15 +8,13 @@ class AaptOptionsTask extends DefaultTask {
     @TaskAction
     def run() {
         project.configure(project) {
-            if (it.hasProperty("android")) {
-                def aaptOptions = project.android.aaptOptions
+            def aaptOptions = project.android.aaptOptions
 
-                //NOTE: .NET assemblies need to be uncompressed for mmap
-                aaptOptions.setProperty('noCompress', 'dll')
+            //NOTE: .NET assemblies need to be uncompressed for mmap
+            aaptOptions.setProperty('noCompress', 'dll')
 
-                //NOTE: exclude assets/assemblies, because they will get added to /assemblies instead
-                aaptOptions.setProperty('ignoreAssetsPattern', '!*.dll')
-            }
+            //NOTE: exclude assets/assemblies, because they will get added to /assemblies instead
+            aaptOptions.setProperty('ignoreAssetsPattern', '!*.dll')
         }
     }
 
