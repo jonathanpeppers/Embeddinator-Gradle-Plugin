@@ -32,13 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    applicationVariants.all { variant ->
-        variant.mergeAssets.doLast {
-            copy {
-                from ("src/main/assets/assemblies")
-                into ("$outputDir")
-            }
-        }
+
+    //NOTE: excluding assets/assemblies/, because it needs to go in root
+    aaptOptions {
+        ignoreAssetsPattern "!assets/assemblies/*.dll"
     }
 }
 
@@ -55,3 +52,29 @@ dependencies {
 
 //TODO: figure out how to just use 'embeddinator'?
 apply plugin: Embeddinator
+
+task copyAssemblies  {
+    def tempDir = new File(buildDir, 'generated/assemblies/')
+    def destDir = new File(tempDir, '/')
+    // THIS IS KEY: Add resDir as a resource directory so that it is
+    //              automatically included in the APK
+    android {
+        sourceSets {
+            main.resources {
+                srcDir tempDir
+            }
+        }
+    }
+    doLast {
+        copy {
+            into destDir
+            from 'src/main/assets/assemblies/'
+        }
+    }
+}
+
+project.afterEvaluate {
+    tasks.findAll { task ->
+        task.name.startsWith('merge') && task.name.endsWith('Resources')
+    }.each { t -> t.dependsOn copyAssemblies }
+}
