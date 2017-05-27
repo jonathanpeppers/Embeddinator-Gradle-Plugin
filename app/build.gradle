@@ -32,11 +32,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    //NOTE: excluding assets/assemblies/, because it needs to go in root
-    aaptOptions {
-        ignoreAssetsPattern "!assets/assemblies/*.dll"
-    }
 }
 
 dependencies {
